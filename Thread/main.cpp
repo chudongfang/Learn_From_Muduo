@@ -56,13 +56,21 @@ int main()
     printf("pid=%d, tid=%d\n", ::getpid(), muduo::CurrentThread::tid());
 
     muduo::Thread t1(threadFunc);
+    printf("@%d\n",t1.tid());
     t1.start();
+    mysleep(1);
+    printf("@%d\n",t1.tid());
     t1.join();
+    printf("@%d\n",t1.tid());
 
     muduo::Thread t2(boost::bind(threadFunc2, 42),
                      "thread for free function with argument");
+    printf("@%d\n",t2.tid());
     t2.start();
+    mysleep(1);
+    printf("@%d\n",t2.tid());
     t2.join();
+    printf("@%d\n",t2.tid());
 
     Foo foo(87.53);
     muduo::Thread t3(boost::bind(&Foo::memberFunc, &foo),
